@@ -1,0 +1,186 @@
+# Advanced hand-object interaction detection configuration
+
+# Video input configuration
+video:
+  source: "rtsp://admin:HeysemAI246@192.168.150.59"  # RTSP stream
+  fps: 30                      # Hedeflenen FPS
+  resolution: [1920, 1080]     # Çözünürlük [width, height]
+  buffer_size: 1               # Frame buffer boyutu
+  skip_frames: 0               # Atlanan frame sayısı (performans için)
+
+# Hand detection settings (MediaPipe) - ÖNEMLİ: Landmarks aktif!
+hands:
+  max_num_hands: 2             # Maksimum tespit edilecek el sayısı
+  min_detection_confidence: 0.7 # Minimum tespit güven skoru
+  min_tracking_confidence: 0.5  # Minimum tracking güven skoru
+  model_complexity: 1          # Model karmaşıklığı (0: en hızlı, 2: en doğru)
+  static_image_mode: false     # Statik görüntü modu
+  return_landmarks: true       # ÖNEMLİ: Hand landmarks'ları döndür!
+  
+# Advanced object detection settings
+objects:
+  # YOLOv8 Segmentation model
+  segmentation_model: "models/advanced/yolov8l-seg.pt"
+  confidence_threshold: 0.3    # Minimum nesne tespit güveni
+  iou_threshold: 0.45         # NMS IoU eşiği
+  max_det: 100                # Maksimum tespit sayısı
+  device: "auto"              # "cpu", "cuda:0", "auto"
+  
+  # CLIP Zero-shot detection
+  clip_model: "ViT-B-32"      # CLIP model architecture
+  clip_pretrained: "openai"   # Pretrained weights
+  similarity_threshold: 0.25  # Minimum similarity için zero-shot
+  
+  # Hand region expansion
+  hand_expansion_factor: 1.4  # El bölgesini genişletme faktörü
+
+# Advanced detector configuration
+detector:
+  enable_advanced_detection: true    # Advanced detection aktif
+  enable_yolo_object: false          # Eski YOLO devre dışı
+  enable_yolo_hand: false            # YOLO el tespiti devre dışı
+  mediapipe_hands: true              # MediaPipe el tespiti aktif
+  return_landmarks: true             # Landmarks döndür
+  
+  # Hand-object interaction settings
+  interaction_analysis: true         # El-nesne interaksiyon analizi
+  grip_strength_analysis: true       # Grip strength analizi
+  hand_pose_classification: true     # El pozisyonu sınıflandırması
+  
+# Motion analysis configuration (devre dışı)
+motion:
+  method: "disabled"          # Motion analizi kapatıldı
+  scale: 0.5                  # Frame ölçekleme (kullanılmıyor)
+
+# Zero-shot object queries (eldeki nesneler için)
+zero_shot_queries:
+  common_objects:
+    - "phone"
+    - "mobile phone" 
+    - "smartphone"
+    - "key"
+    - "keys"
+    - "car key"
+    - "pen"
+    - "pencil"
+    - "marker"
+    - "coin"
+    - "money"
+    - "card"
+    - "credit card"
+    - "tool"
+    - "screwdriver"
+    - "food"
+    - "apple"
+    - "banana"
+    - "bottle"
+    - "water bottle"
+    - "remote control"
+    - "glasses"
+    - "watch"
+    - "earphone"
+  
+  similarity_threshold: 0.2    # Zero-shot için eşik
+
+# Visualization settings
+visualization:
+  show_landmarks: true         # El landmarks'ları göster
+  show_connections: true       # El bağlantıları göster
+  show_bounding_boxes: true    # Bounding box'ları göster
+  show_masks: true            # Segmentation mask'ları göster
+  show_grip_strength: true    # Grip strength bar'ı göster
+  show_interaction_info: true # İnteraksiyon bilgilerini göster
+  
+  # Colors (BGR format)
+  hand_color: [255, 0, 0]     # Mavi - El
+  object_color: [0, 255, 0]   # Yeşil - Nesne
+  landmark_color: [255, 255, 0] # Sarı - Landmarks
+  connection_color: [0, 255, 255] # Cyan - Bağlantılar
+  levels: 3                   # Piramit seviye sayısı
+  winsize: 15                 # Pencere boyutu
+  iterations: 3               # İterasyon sayısı
+  poly_n: 5                   # Polinom boyutu (Farneback)
+  poly_sigma: 1.2             # Polinom sigma (Farneback)
+  use_gpu: false              # GPU kullanımı (deneysel)
+  
+# In-hand logic configuration
+inhand:
+  matching_strategy: "center_iou"  # "center_distance", "center_iou", "bbox_iou"
+  iou_threshold: 0.3          # IoU eşleştirme eşiği
+  match_threshold: 50.0       # Mesafe eşleştirme eşiği (piksel)
+  max_distance: 100.0         # Maksimum eşleştirme mesafesi
+  min_confidence: 0.5         # Minimum güven skoru
+  tracking_history: 30        # Tracking geçmişi (frame)
+  
+# Finite State Machine configuration
+fsm:
+  start_threshold: 2.0        # İnceleme başlangıç hareket eşiği
+  stop_threshold: 1.0         # İnceleme bitiş hareket eşiği
+  min_frames_start: 3         # Başlangıç için minimum frame
+  min_frames_stop: 3          # Bitiş için minimum frame
+  grace_frames: 5             # Tespit kaybı toleransı
+  confidence_threshold: 0.7   # FSM için minimum güven
+  hysteresis_enabled: true    # Histerezis kullanımı
+  
+# Tracking configuration
+tracking:
+  max_disappeared: 30         # Maksimum kayıp frame sayısı
+  max_distance: 50            # Maksimum tracking mesafesi
+  tracker_type: "centroid"    # "centroid", "kalman", "optical_flow"
+  
+# Event logging configuration
+logging:
+  enabled: true
+  format: "jsonl"             # "jsonl", "csv", "both"
+  output_dir: "data/events"   # Event kayıt dizini
+  max_file_size: "10MB"       # Maksimum dosya boyutu
+  backup_count: 5             # Backup dosya sayısı
+  include_frames: false       # Frame'leri kaydet
+  
+# Visualization configuration
+visualization:
+  enabled: true
+  show_hands: true            # El çizimini göster
+  show_objects: true          # Nesne çizimini göster
+  show_flow: false            # Optik akış gösterimi
+  show_tracks: true           # Track ID'lerini göster
+  show_fps: true              # FPS gösterimi
+  show_stats: true            # İstatistikleri göster
+  
+  # Colors (BGR format)
+  colors:
+    hand_bbox: [0, 255, 0]    # Yeşil
+    object_bbox: [255, 0, 0]  # Mavi
+    track_line: [0, 255, 255] # Sarı
+    text: [255, 255, 255]     # Beyaz
+    
+  # Font settings
+  font_scale: 0.6
+  font_thickness: 2
+  line_thickness: 2
+  
+# Performance optimization
+performance:
+  multiprocessing: false      # Çoklu işlem kullanımı
+  num_workers: 2              # Worker sayısı
+  queue_size: 10              # Frame kuyruk boyutu
+  memory_limit: "2GB"         # Bellek sınırı
+  
+# Debug configuration
+debug:
+  enabled: false
+  save_debug_frames: false    # Debug frame'lerini kaydet
+  debug_dir: "data/debug"     # Debug dizini
+  log_level: "INFO"           # "DEBUG", "INFO", "WARNING", "ERROR"
+  profile_performance: false   # Performans profilleme
+  
+# API configuration (FastAPI için)
+api:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 1
+  reload: false
+  log_level: "info"
+  cors_origins: ["*"]
+  max_request_size: "10MB"
+  timeout: 30

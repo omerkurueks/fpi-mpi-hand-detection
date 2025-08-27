@@ -1,0 +1,43 @@
+datasets:
+  egohands:
+    root: "datasets/egohands"
+    split: 
+      train: 0.8
+      val: 0.2
+    classes: ["hand"]
+  custom:
+    root: "datasets/custom"
+    split:
+      train: 0.7
+      val: 0.2
+      test: 0.1
+  hoi:
+    root: "datasets/hoi"
+    classes: ["hand", "object"]
+
+augment:
+  hflip: true
+  scale: [0.8, 1.2]
+  brightness: [0.8, 1.2]
+  contrast: [0.8, 1.2]
+  saturation: [0.8, 1.2]
+  hue: [-0.1, 0.1]
+  motion_blur_p: 0.2
+  gaussian_noise_p: 0.1
+  mixup_alpha: 0.2
+  cutmix_alpha: 1.0
+
+training:
+  epochs: 100
+  batch_size: 16
+  learning_rate: 0.001
+  weight_decay: 0.0005
+  momentum: 0.937
+  warmup_epochs: 3
+  patience: 20
+  save_period: 10
+
+validation:
+  conf_thres: 0.001
+  iou_thres: 0.6
+  max_det: 300

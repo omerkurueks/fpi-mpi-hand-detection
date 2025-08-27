@@ -1,0 +1,202 @@
+# Example model configuration for YOLO training
+# Bu dosyayı kopyalayarak model.yaml olarak kaydedin
+
+# Model architecture
+model:
+  architecture: "yolov8n"      # yolov8n, yolov8s, yolov8m, yolov8l, yolov8x
+  pretrained: true             # Pretrained weights kullan
+  classes: 80                  # Sınıf sayısı (COCO: 80)
+  channels: 3                  # Giriş kanal sayısı
+  
+# Training configuration
+training:
+  # Basic settings
+  epochs: 100                  # Eğitim epoch sayısı
+  batch_size: 16               # Batch boyutu
+  imgsz: 640                   # Görüntü boyutu
+  device: "auto"               # "cpu", "cuda", "auto"
+  workers: 8                   # DataLoader worker sayısı
+  
+  # Optimizer settings
+  optimizer: "SGD"             # "SGD", "Adam", "AdamW"
+  lr0: 0.01                    # İlk öğrenme oranı
+  lrf: 0.01                    # Son öğrenme oranı (lr0 * lrf)
+  momentum: 0.937              # SGD momentum
+  weight_decay: 0.0005         # Ağırlık azalması
+  warmup_epochs: 3.0           # Warmup epoch sayısı
+  warmup_momentum: 0.8         # Warmup momentum
+  warmup_bias_lr: 0.1          # Warmup bias learning rate
+  
+  # Loss weights
+  box: 7.5                     # Box loss gain
+  cls: 0.5                     # Class loss gain
+  dfl: 1.5                     # DFL loss gain
+  
+  # Validation
+  val: true                    # Validation yapılsın mı
+  save_period: 10              # Kaç epoch'ta bir kaydet
+  patience: 50                 # Early stopping patience
+  
+# Data augmentation
+augmentation:
+  # Spatial augmentations
+  degrees: 0.0                 # Döndürme (-degrees to +degrees)
+  translate: 0.1               # Öteleme (+/- fraction)
+  scale: 0.5                   # Ölçekleme (+/- gain)
+  shear: 0.0                   # Eğme (+/- degrees)
+  perspective: 0.0             # Perspektif (+/- fraction)
+  
+  # Flip augmentations
+  flipud: 0.0                  # Dikey çevirme olasılığı
+  fliplr: 0.5                  # Yatay çevirme olasılığı
+  
+  # Color augmentations
+  hsv_h: 0.015                 # Hue augmentation
+  hsv_s: 0.7                   # Saturation augmentation
+  hsv_v: 0.4                   # Value augmentation
+  
+  # Advanced augmentations
+  mosaic: 1.0                  # Mosaic augmentation olasılığı
+  mixup: 0.0                   # Mixup augmentation olasılığı
+  copy_paste: 0.0              # Copy-paste augmentation
+  erasing: 0.4                 # Random erasing olasılığı
+  
+# Dataset configuration
+dataset:
+  path: "data/yolo_dataset"    # Dataset root directory
+  train: "images/train"        # Training images path
+  val: "images/val"            # Validation images path
+  test: "images/test"          # Test images path (optional)
+  
+  # Class names (COCO classes örneği)
+  names:
+    0: "person"
+    1: "bicycle" 
+    2: "car"
+    3: "motorcycle"
+    4: "airplane"
+    5: "bus"
+    6: "train"
+    7: "truck"
+    8: "boat"
+    9: "traffic light"
+    10: "fire hydrant"
+    11: "stop sign"
+    12: "parking meter"
+    13: "bench"
+    14: "bird"
+    15: "cat"
+    16: "dog"
+    17: "horse"
+    18: "sheep"
+    19: "cow"
+    20: "elephant"
+    21: "bear"
+    22: "zebra"
+    23: "giraffe"
+    24: "backpack"
+    25: "umbrella"
+    26: "handbag"
+    27: "tie"
+    28: "suitcase"
+    29: "frisbee"
+    30: "skis"
+    31: "snowboard"
+    32: "sports ball"
+    33: "kite"
+    34: "baseball bat"
+    35: "baseball glove"
+    36: "skateboard"
+    37: "surfboard"
+    38: "tennis racket"
+    39: "bottle"
+    40: "wine glass"
+    41: "cup"
+    42: "fork"
+    43: "knife"
+    44: "spoon"
+    45: "bowl"
+    46: "banana"
+    47: "apple"
+    48: "sandwich"
+    49: "orange"
+    50: "broccoli"
+    51: "carrot"
+    52: "hot dog"
+    53: "pizza"
+    54: "donut"
+    55: "cake"
+    56: "chair"
+    57: "couch"
+    58: "potted plant"
+    59: "bed"
+    60: "dining table"
+    61: "toilet"
+    62: "tv"
+    63: "laptop"
+    64: "mouse"
+    65: "remote"
+    66: "keyboard"
+    67: "cell phone"
+    68: "microwave"
+    69: "oven"
+    70: "toaster"
+    71: "sink"
+    72: "refrigerator"
+    73: "book"
+    74: "clock"
+    75: "vase"
+    76: "scissors"
+    77: "teddy bear"
+    78: "hair drier"
+    79: "toothbrush"
+
+# Evaluation metrics
+evaluation:
+  metrics: ["precision", "recall", "mAP@0.5", "mAP@0.5:0.95"]
+  conf_threshold: 0.001        # Confidence threshold for evaluation
+  iou_threshold: 0.6           # IoU threshold for NMS
+  max_det: 300                 # Maximum detections per image
+  
+# Export configuration
+export:
+  format: ["onnx", "tensorrt"] # Export formats
+  dynamic: false               # Dynamic axes
+  simplify: true               # Simplify ONNX model
+  opset: 11                    # ONNX opset version
+  workspace: 4                 # TensorRT workspace size (GB)
+  nms: false                   # Add NMS to model
+  
+# Callbacks
+callbacks:
+  tensorboard: true            # TensorBoard logging
+  wandb: false                 # Weights & Biases logging
+  clearml: false               # ClearML logging
+  comet: false                 # Comet logging
+  
+# Advanced settings
+advanced:
+  # Multi-GPU training
+  ddp: false                   # DistributedDataParallel
+  sync_bn: false               # Synchronized BatchNorm
+  
+  # Model EMA
+  ema: true                    # Exponential Moving Average
+  ema_decay: 0.9999            # EMA decay rate
+  
+  # Mixed precision
+  amp: true                    # Automatic Mixed Precision
+  
+  # Profiling
+  profile: false               # Profile training
+  
+  # Resume training
+  resume: false                # Resume from checkpoint
+  checkpoint: ""               # Checkpoint path
+  
+  # Save settings
+  save_model: true             # Save final model
+  save_optimizer: false        # Save optimizer state
+  save_dir: "runs/train"       # Save directory
+  name: "exp"                  # Experiment name
+  exist_ok: false              # Overwrite existing experiment

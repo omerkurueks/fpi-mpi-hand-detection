@@ -1,0 +1,1 @@
+event_id,track_id,start_ts,end_ts,duration_s,avg_flow,avg_centroid_px,min_conf,max_conf,notes,created_at
