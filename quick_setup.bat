@@ -68,6 +68,10 @@ echo 🧪 Kurulum testi...
 python -c "import torch; print(f'CUDA Available: {torch.cuda.is_available()}')"
 
 echo.
+echo 🔍 Import debug testi...
+python debug_imports.py
+
+echo.
 echo 🎉 Kurulum tamamlandı!
 echo.
 echo 📋 Ana kullanım:
@@ -76,8 +80,9 @@ echo    python main.py --mode fast        # Hızlı mod (MediaPipe only)
 echo    python main.py --rtsp URL         # RTSP stream ile
 echo.
 echo 🧪 Test komutları:
-echo    python tests\test_sam2_final.py        # SAM 2 testi
-echo    python tests\test_mediapipe_fast.py    # MediaPipe testi
+echo    python debug_imports.py              # Import sorunları debug
+echo    python tests\test_sam2_final.py      # SAM 2 testi
+echo    python tests\test_mediapipe_fast.py  # MediaPipe testi
 echo.
 echo Virtual environment aktif. main.py ile başlayabilirsiniz!
 echo.

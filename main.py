@@ -17,12 +17,19 @@ import sys
 import time
 from pathlib import Path
 
+# Python path'e src klasörünü ekle
+sys.path.insert(0, str(Path(__file__).parent / "src"))
+
 # Ana detector import
 try:
-    from src.detect.sam2_mediapipe_detector import SAM2MediaPipeDetector
-except ImportError:
+    from detect.sam2_mediapipe_detector import SAM2MediaPipeDetector
+except ImportError as e:
     print("❌ SAM2MediaPipeDetector import edilemedi!")
-    print("   Kurulum: cd sam2_official && pip install -e .")
+    print(f"   Hata: {e}")
+    print("   Çözümler:")
+    print("   1. cd sam2_official && pip install -e .")
+    print("   2. SAM 2 model dosyası var mı kontrol edin")
+    print("   3. Virtual environment aktif mi kontrol edin")
     sys.exit(1)
 
 # MediaPipe import

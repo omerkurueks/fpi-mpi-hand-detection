@@ -214,6 +214,24 @@ RTSP_URL = "rtsp://username:password@ip_address:port/stream"
 
 ## 🛠️ Troubleshooting
 
+### Import Errors (SAM2MediaPipeDetector bulunamadı)
+```bash
+# Debug script çalıştır
+python debug_imports.py
+
+# Yaygın çözümler:
+# 1. Virtual environment aktif mi?
+.venv\Scripts\activate  # Windows
+
+# 2. SAM 2 kurulumu
+cd sam2_official
+pip install -e .
+cd ..
+
+# 3. Dependencies tekrar yükle
+pip install -r requirements.txt --force-reinstall
+```
+
 ### CUDA Errors
 ```bash
 # PyTorch CUDA version check
@@ -226,7 +244,7 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 ### SAM 2 Import Errors
 ```bash
 # SAM 2 reinstall
-cd sam2
+cd sam2_official
 pip install -e . --force-reinstall
 ```
 
