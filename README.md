@@ -2,6 +2,45 @@
 
 SAM 2 + MediaPipe entegrasyonu ile gerçek zamanlı el tespiti ve nesne segmentasyonu.
 
+## ⚡ Hızlı Başlangıç
+
+### Otomatik Kurulum (Önerilen)
+
+**Windows:**
+```bash
+git clone https://github.com/omerkurueks/fpi-mpi-hand-detection.git
+cd fpi-mpi-hand-detection
+quick_setup.bat
+```
+
+**Linux/Mac:**
+```bash
+git clone https://github.com/omerkurueks/fpi-mpi-hand-detection.git
+cd fpi-mpi-hand-detection
+chmod +x quick_setup.sh
+./quick_setup.sh
+```
+
+**Python Script (Çapraz Platform):**
+```bash
+git clone https://github.com/omerkurueks/fpi-mpi-hand-detection.git
+cd fpi-mpi-hand-detection
+python setup.py
+```
+
+### İlk Test
+```bash
+# Virtual environment aktifleştir
+.venv\Scripts\activate  # Windows
+source .venv/bin/activate  # Linux/Mac
+
+# SAM 2 test
+python tests/test_sam2_final.py
+
+# Hızlı MediaPipe test
+python tests/test_mediapipe_fast.py
+```
+
 ## 🎯 Özellikler
 
 - **SAM 2 (Segment Anything Model 2)** ile zero-shot object segmentation
@@ -10,39 +49,77 @@ SAM 2 + MediaPipe entegrasyonu ile gerçek zamanlı el tespiti ve nesne segmenta
 - **CUDA acceleration** desteği
 - **Real-time processing** optimizasyonları
 
-## 🚀 Kurulum
+## 🚀 Kurulum (Yeni Bilgisayarda)
 
-### 1. Repository Clone
+### Adım 1: Sistem Gereksinimleri
+```bash
+# Python 3.8+ gerekli
+python --version
+
+# CUDA kontrolü (GPU kullanımı için)
+nvidia-smi
+```
+
+### Adım 2: Repository Clone
 ```bash
 git clone https://github.com/omerkurueks/fpi-mpi-hand-detection.git
 cd fpi-mpi-hand-detection
 ```
 
-### 2. Python Environment
+### Adım 3: Python Virtual Environment
 ```bash
+# Virtual environment oluştur
 python -m venv .venv
-# Windows
+
+# Aktifleştir
+# Windows:
 .venv\Scripts\activate
-# Linux/Mac
+# Linux/Mac:
 source .venv/bin/activate
 ```
 
-### 3. Dependencies
+### Adım 4: Temel Dependencies
 ```bash
+# PyTorch CUDA version (önemli!)
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+# Diğer dependencies
 pip install -r requirements.txt
 ```
 
-### 4. SAM 2 Setup
+### Adım 5: SAM 2 Kurulumu
 ```bash
-# SAM 2 repository clone
-git clone https://github.com/facebookresearch/sam2.git
-cd sam2
+# SAM 2 zaten projede var, sadece install et
+cd sam2_official
 pip install -e .
 cd ..
+```
 
-# Model download
-mkdir -p models/sam2
-# SAM 2.1 Hiera Large model download (898MB)
+### Adım 6: Model Dosyalarını İndir
+```bash
+# Model klasörü oluştur
+mkdir models
+mkdir models\sam2
+
+# SAM 2.1 Hiera Large model indir (898MB)
+# Windows PowerShell:
+Invoke-WebRequest -Uri "https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_large.pt" -OutFile "models\sam2\sam2.1_hiera_large.pt"
+
+# Linux/Mac:
+# wget https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_large.pt -O models/sam2/sam2.1_hiera_large.pt
+```
+
+### Adım 7: Kurulum Testi
+```bash
+# CUDA ve dependencies kontrolü
+python -c "import torch; print(f'CUDA Available: {torch.cuda.is_available()}')"
+
+# SAM 2 testi
+python tests\test_sam2_final.py
+
+# MediaPipe testi
+python tests\test_mediapipe_fast.py
+```
 # Download from: https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_large.pt
 ```
 
