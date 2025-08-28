@@ -131,30 +131,40 @@ mkdir -p configs/sam2.1
 
 ## 🎮 Kullanım
 
-### Temel Test
-```bash
-# SAM 2 + MediaPipe test
-python test_sam2_final.py
+### 🎯 Ana Uygulama (main.py)
 
-# Ultra hızlı MediaPipe test
-python test_mediapipe_fast.py
+```bash
+# Webcam ile çalıştır (varsayılan)
+python main.py
+
+# Hızlı mod (sadece MediaPipe - 30+ FPS)
+python main.py --mode fast
+
+# Tam mod (SAM 2 + MediaPipe - 5-10 FPS)
+python main.py --mode full
+
+# RTSP kamera ile
+python main.py --rtsp "rtsp://user:pass@ip:port/stream"
+
+# Video dosyası ile
+python main.py --video "video.mp4"
 ```
 
-### RTSP Stream Test
+### ⌨️ Kontroller
+- **ESC**: Çıkış
+- **SPACE**: Pause/Resume
+- **S**: Screenshot kaydet
+
+### 🧪 Test Dosyaları
 ```bash
-# Optimized RTSP test
-python test_sam2_rtsp_optimized.py
+# SAM 2 kurulum testi
+python tests/test_sam2_final.py
 
-# Standard RTSP test  
-python test_sam2_rtsp.py
-```
+# Hızlı MediaPipe testi
+python tests/test_mediapipe_fast.py
 
-### Ana Detector
-```python
-from detect.sam2_mediapipe_detector import SAM2MediaPipeDetector
-
-detector = SAM2MediaPipeDetector()
-results = detector.detect_frame(frame)
+# RTSP stream testi
+python tests/test_sam2_rtsp.py
 ```
 
 ## 📋 Sistem Gereksinimleri

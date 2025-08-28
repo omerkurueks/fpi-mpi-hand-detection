@@ -70,12 +70,16 @@ python -c "import torch; print(f'CUDA Available: {torch.cuda.is_available()}')"
 echo.
 echo 🎉 Kurulum tamamlandı!
 echo.
-echo 📋 Test komutları:
+echo 📋 Ana kullanım:
+echo    python main.py                    # Webcam ile çalıştır
+echo    python main.py --mode fast        # Hızlı mod (MediaPipe only)
+echo    python main.py --rtsp URL         # RTSP stream ile
+echo.
+echo 🧪 Test komutları:
 echo    python tests\test_sam2_final.py        # SAM 2 testi
 echo    python tests\test_mediapipe_fast.py    # MediaPipe testi
-echo    python tests\test_sam2_rtsp.py         # RTSP stream testi
 echo.
-echo Virtual environment aktif. Çalışmaya başlayabilirsiniz!
+echo Virtual environment aktif. main.py ile başlayabilirsiniz!
 echo.
 
 pause
